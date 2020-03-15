@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import storage from './storage'
+// import storage from './storage'
 
 export default {
   name: 'app',
@@ -14,12 +14,16 @@ export default {
   },
   data(){
     return{
-      age:30
-    } 
+      res:{}
+    }
   },
-  mounted(){
-    storage.setItem('a',1);
-    storage.setItem('stu',{'b':1});
+  mounted() {
+    //本地静态加载json
+    // this.axios.get('/mock/user/login.json').then((res)=>{
+    //   this.res = res;
+    this.axios.get('/mock/user/login.json').then((res)=>{
+    this.res = res;
+    });
   }
 }
 </script>
