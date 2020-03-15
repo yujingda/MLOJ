@@ -8,8 +8,9 @@ import Detail from './pages/detail'
 import Cart from './pages/cart'
 import Order from './pages/order'
 import OrderConfirm from './pages/orderconfirm'
-import OrderList from './pages/orderlist'
-import OrderPay from './pages/orderpay'
+import OrderList from './pages/orderlist.vue'
+import OrderPay from './pages/orderpay.vue'
+import Course from './pages/course'
 //加载插件的语法:导入Vue，导入Router，用Vue的方式导入Router插件，而后导出
 Vue.use(Router);
 
@@ -19,6 +20,7 @@ export default new Router({
             path:'/',
             name:'home',
             component:Home,
+            redirect:'/index',
             children:[
                 {
                     path:'/index',
@@ -48,21 +50,26 @@ export default new Router({
             component: Order,
             children:[
                 {
-                    path:'/confirm',
+                    path:'confirm',
                     name: 'order-confirm',
                     component: OrderConfirm
                 },
                 {
-                    path:'/list',
+                    path:'list',
                     name: 'order-list',
                     component: OrderList
                 },
                 {
-                    path:'/pay',
+                    path:'pay',
                     name: 'order-pay',
                     component: OrderPay
                 }
             ]
+        },
+        {
+            path:'/course',
+            name: 'course',
+            component: Course
         }
     ]
 })
