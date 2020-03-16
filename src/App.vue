@@ -21,7 +21,7 @@ export default {
     //本地静态加载json
     // this.axios.get('/mock/user/login.json').then((res)=>{
     //   this.res = res;
-    this.axios.get('/mock/user/login.json').then((res)=>{
+    this.axios.get('/mock').then((res)=>{
     this.res = res;
     });
   }

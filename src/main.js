@@ -5,7 +5,7 @@ import App from './App.vue'
 import router from './router'
 //import env from './env'//如果是自己写的文件作为插件载入，必须在前面加./
 //设置初始值，根据前端的跨域方式做调整,域名不同就全写
-//axios.defaults.baseURL = '/api';//如果前后端域名相同，这里是接口代理
+axios.defaults.baseURL = 'https://www.easy-mock.com/mock/5e6e5755fc455f404afb8746/example';//如果前后端域名相同，这里是接口代理
 axios.defaults.timeout = 8000;//响应超时时间
 //根据环境变量获取请求地址
 /*axios.defaults.baseURL = env.baseURL;*/
