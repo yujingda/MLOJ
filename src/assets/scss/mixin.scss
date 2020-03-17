@@ -1,0 +1,15 @@
+@mixin flex($hov:space-between,$col:center){
+    //定义出一个混合函数
+    //flex布局复用
+    display: flex;//居中
+    justify-content: $hov;//两边对齐,有时候会用center
+    align-items: $col;//垂直居中
+}
+
+@mixin backgroundimg($wid:0,$hei:0,$img:'',$size:contain){
+    display: inline-block;
+    width: $wid;
+    height: $hei;
+    background: url($img) no-repeat center;
+    background-size: $size;
+}

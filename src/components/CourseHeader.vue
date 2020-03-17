@@ -8,9 +8,9 @@
                 </div>
                 <div class="topbar-user">
                     <a href="javascript:;" v-if="username">{{username}}</a>
-                    <a href="javascript:;" v-if="!username" @click="login()">登录</a>
-                    <a href="javascript:;">注册</a>
-                    <a href="javascript:;" class="my-car" @click="goTomyCart()"><span class="icon-cart"></span>购物车</a>
+                    <a href="javascript:;" v-if="!username" @click="login()">在这登录</a>
+                    <a href="javascript:;">我要注册</a>
+                    <a href="javascript:;" class="my-car" @click="goTomyCart()"><span class="icon-cart"></span>个人中心</a>
                 </div>
             </div>
         </div>
@@ -21,33 +21,10 @@
                 </div>
                 <div class="header-menu">
                     <div class="item-menu">
-                        <span>小米手机</span>
-                        <div class="children">
-                            <ul>
-                                <!-- key可以防止二次渲染 -->
-                                <li class="product" v-for="(item,index) in phoneList" :key="index">
-                                    <!-- 使其打开新窗口 -->
-                                    <a v-bind:href="'/#/product/'+item.id" target="_blank">
-                                        <div class="pro-img">
-                                            <img src="itme.mainImage" :alt="item.subtitle">
-                                        </div>
-                                        <div class="pro-name">
-                                            {{item.name}}
-                                        </div>
-                                        <div class="pro-price">
-                                            {{item.price | currency}}
-                                        </div>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
+                        <span>已发布课程</span>
                     </div>
                     <div class="item-menu">
-                        <span>红米手机</span>
-                        <div class="children"></div>
-                    </div>
-                    <div class="item-menu">
-                        <span>小米电视</span>
+                        <span>本课资料</span>
                         <div class="children"></div>
                     </div>
                 </div>
@@ -139,6 +116,7 @@ export default {
                 position: relative;
                 height: 112px;
                 @include flex();
+                border-bottom: 1px solid $colorH;
                 .header-logo{
                     display: inline-block;
                     width: 55px;
@@ -150,7 +128,7 @@ export default {
                         height: 55px;
                         &:before{
                             content:' ';//这个用于占位，没有content就没有伪类
-                            @include backgroundimg(55px,55px,'/images/mi-logo.png',55px);
+                            @include backgroundimg(55px,55px,'/images/dutry_logo.png',55px);
                             transition: margin .2s;
                         }
                         &:after{
