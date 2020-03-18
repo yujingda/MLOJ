@@ -47,8 +47,5 @@ export default {
         }
         margin-bottom: 13px;
     }
-    .copyright{
-
-    }
 }
 </style>

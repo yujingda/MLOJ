@@ -222,9 +222,6 @@ export default {
                                     margin-bottom: 8px;
                                     color:$colorB
                                 }
-                                .pro-price{
-
-                                }
                                 &:before{//此时的伪类仅仅是一个空元素，不加占位会有问题
                                 content: ' ';
                                 position: absolute;//必须在其父元素product上加上绝对定位，否则就相对于container进行定位了
