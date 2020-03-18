@@ -77,16 +77,13 @@
                         <div class="swiper-button-next" slot="button-next"></div>
                     </swiper>
                 </div>
-                <div class="ads-box">
-                </div>
-                <div class="banner"></div>
             </div>
             <div class="product-box">
                 <div class="container">
                     <h2>手机</h2>
                     <div class="wrapper">
                     <div class="banner-left">
-                        <a href="'"><img src="/images/mix-alpha.jpg" alt=""></a>
+                        <a href="'"><img v-lazy="'/images/mix-alpha.jpg'" alt=""></a>
                     </div>
                     <div class="list-box">
                         <div class="list" v-for="(array,i) in phoneList" v-bind:key="i">
@@ -94,12 +91,12 @@
                                 <span v-bind:class="{'new-pro':j%2==0}">新品</span>
 
                                 <div class="item-img">
-                                    <img v-bind:src="item.mainImage" alt="">
+                                    <img v-lazy="item.mainImage" alt="">
                                 </div>
                                 <div class="item-info">
                                     <h3>{{item.name}}</h3>
                                     <p>{{item.subtitle}}</p>
-                                    <p class="price">{{item.price}}元</p>
+                                    <p class="price" @click="addCart(item.id)">{{item.price}}元</p>
                                 </div>
                             </div>
                         </div>
@@ -109,11 +106,19 @@
                 </div>
         </div>
         <service-bar></service-bar>
+        <modal title="提示" sureText="查看购物车" btnType="1" modalType="middle" 
+         v-bind:showModal="showModal" v-on:submit = "gotoCart()" v-on:cancel="showModal=false">
+        <!-- 插槽的用法 -->
+        <template v-slot:body>
+            <p>商品添加重构！</p>
+        </template>
+        </modal>
     </div>
 </template>
 <script>
 /*swiper的使用：先引入，而后根据demo加各种标签，将option的设置数据传入*/
 import ServiceBar from './../components/ServiceBar'
+import Modal from './../components/Modal'
 import { swiper, swiperSlide } from 'vue-awesome-swiper'
 import 'swiper/dist/css/swiper.css'//插件和样式通常在一起，样式一般放在dist文件夹里
 export default {
@@ -122,7 +127,8 @@ export default {
         //看来我不懂vue的命名规则，上边的标签可以自动读取下方，原理未知
         ServiceBar,
         swiper,
-        swiperSlide
+        swiperSlide,
+        Modal
     },
     data(){
         return{
@@ -193,7 +199,8 @@ export default {
             ],
             phoneList:[
                 [1,1,1,1],[1,1,1,1]
-            ]
+            ],
+            showModal:false
         }
     },
     mounted(){
@@ -204,12 +211,29 @@ export default {
             this.axios.get('/products',{
                 params:{
                     categoryId:100012,
-                    pageSize:8
+                    pageSize:14
                 }
             }).then((respound)=>{
                 let res = respound.data.data;
+                res.list = res.list.slice(6,14);
                 this.phoneList = [res.list.slice(0,4),res.list.slice(4,8)];//slice和splice的区别在于slice不会改变原本的数组
             })
+        },
+        gotoCart(){
+            this.$router.push('/cart');
+        },
+        addCart(){
+            this.showModal = true;
+            //下节课讲消息拦截
+            /*this.axios.post('/carts',{
+                productId:id,
+                select:true
+            }).then((res)=>{
+                this.showModal = true;
+                console.log(res);
+            }).catch(()=>{
+                this.showModal = true;
+            })*/
         }
     }
 }
@@ -377,7 +401,7 @@ export default {
                                     content: ' ';
                                     margin-left: 5px;
                                     @include backgroundimg(22px,22px,'/images/icon-cart-hover.png')
-                                    vertical-align:middle;
+                                    vertical-align: middle;
                                 };
                             }
                         }

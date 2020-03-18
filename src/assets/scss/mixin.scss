@@ -1,6 +1,6 @@
 @mixin flex($hov:space-between,$col:center){
-    //定义出一个混合函数
-    //flex布局复用
+    // 定义出一个混合函数
+    // flex布局复用
     display: flex;//居中
     justify-content: $hov;//两边对齐,有时候会用center
     align-items: $col;//垂直居中
@@ -12,4 +12,22 @@
     height: $hei;
     background: url($img) no-repeat center;
     background-size: $size;
+}
+
+@mixin position($pos:absolute,$top:0,$left:0,$w:100%,$h:100%){
+    position: $pos;
+    top: $top;
+    left: $left;
+    width: $w;
+    height: $h;
+}
+
+@mixin posbgimg($pos:absolute,$top:0,$right:0,$wid:0,$hei:0,$img:''){
+    position: $pos;
+    top: $top;
+    right: $right;
+    width: $wid;
+    height: $hei;
+    background: url($img) no-repeat center;
+    background-size: contain;
 }

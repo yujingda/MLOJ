@@ -2,6 +2,7 @@ import Vue from 'vue'
 import axios from 'axios'
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
+import VueLazyLoad from 'vue-lazyload'
 import VueAxios from 'vue-axios'//方便我们用Vue去调用，而不用每个页面都调用
 import App from './App.vue'
 import router from './router'
@@ -31,6 +32,9 @@ axios.defaults.baseURL = '/api';
 
 Vue.use(VueAxios,axios);//用于挂载实例
 Vue.use(ElementUI);
+Vue.use(VueLazyLoad,{
+  loading:'/images/loading-svg/loading-bars.svg'
+})
 Vue.config.productionTip = false
 
 new Vue({

@@ -188,6 +188,7 @@ export default {
                             position: absolute;//使其相对于container进行定位
                             top:112px;
                             left: 0;
+                            z-index: 10;
                             opacity: 0;
                             height: 0px;
                             width: 1226px;
