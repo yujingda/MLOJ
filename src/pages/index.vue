@@ -78,11 +78,35 @@
                     </swiper>
                 </div>
                 <div class="ads-box">
-
                 </div>
                 <div class="banner"></div>
-                <div class="product-box"></div>
             </div>
+            <div class="product-box">
+                <div class="container">
+                    <h2>手机</h2>
+                    <div class="wrapper">
+                    <div class="banner-left">
+                        <a href="'"><img src="/images/mix-alpha.jpg" alt=""></a>
+                    </div>
+                    <div class="list-box">
+                        <div class="list" v-for="(array,i) in phoneList" v-bind:key="i">
+                            <div class="item" v-for="(item,j) in array" v-bind:key="j">
+                                <span v-bind:class="{'new-pro':j%2==0}">新品</span>
+
+                                <div class="item-img">
+                                    <img v-bind:src="item.mainImage" alt="">
+                                </div>
+                                <div class="item-info">
+                                    <h3>{{item.name}}</h3>
+                                    <p>{{item.subtitle}}</p>
+                                    <p class="price">{{item.price}}元</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                    </div>
+                </div>
         </div>
         <service-bar></service-bar>
     </div>
@@ -166,7 +190,26 @@ export default {
                         name:'小米CC9',
                     },
                 ],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]
+            ],
+            phoneList:[
+                [1,1,1,1],[1,1,1,1]
             ]
+        }
+    },
+    mounted(){
+        this.init();
+    },
+    methods:{
+        init(){
+            this.axios.get('/products',{
+                params:{
+                    categoryId:100012,
+                    pageSize:8
+                }
+            }).then((respound)=>{
+                let res = respound.data.data;
+                this.phoneList = [res.list.slice(0,4),res.list.slice(4,8)];//slice和splice的区别在于slice不会改变原本的数组
+            })
         }
     }
 }
@@ -256,6 +299,90 @@ export default {
             img{
                 width: 100%;
                 height: 100%;
+            }
+        }
+    }
+    .product-box{
+        background-color: $colorJ;
+        padding: 30px 0 50px;
+        h2{
+            font-size: $fontF;
+            height: 21px;
+            line-height: 21px;
+            color:$colorB;
+        }
+        //只要在外层定义出flex布局，那么内部元素都为行列块级元素
+        .wrapper{
+            display: flex;
+            .banner-left{
+                margin-right: 16px;
+                img{
+                    width: 224px;
+                    height: 619px;
+                }
+            }
+            .list-box{
+                .list{
+                    @include flex();
+                    width: 986px;
+                    margin-bottom: 14px;
+                    &:last-child{
+                        margin-bottom: 0px;
+                    }
+                    .item{
+                        width: 236px;
+                        height: 302px;
+                        background-color: $colorG;
+                        text-align: center;
+                        span{
+                            display: inline-block;//span原本没有大小，因此设为行列快
+                            opacity: 0;
+                            width: 67px;
+                            height: 24px;
+                            font-size: 14px;
+                            line-height: 24px;
+                            &.new-pro{
+                                background-color: #7ecf68;
+                                opacity: 1;
+                            }
+                            &.kill-pro{
+                                background-color: #e82626;
+                                opacity: 1;
+                            }
+                        }
+                        .item-img{
+                            img{
+                                height: 195px;
+                                width: 100%;
+                            }
+                        }
+                        .item-info{
+                            h3{
+                                font-size: $fontJ;
+                                color: $colorB;
+                                line-height: $fontJ;
+                                font-weight: bold;
+                            }
+                            p{
+                                color: $colorD;
+                                line-height: 13px;
+                                margin: 6PX AUTO 13PX;
+                            }
+                            .price{
+                                color:#f20a0a;
+                                font-size: $fontJ;
+                                font-weight: bold;
+                                cursor: pointer;
+                                &:after{
+                                    content: ' ';
+                                    margin-left: 5px;
+                                    @include backgroundimg(22px,22px,'/images/icon-cart-hover.png')
+                                    vertical-align:middle;
+                                };
+                            }
+                        }
+                    }
+                }
             }
         }
     }
