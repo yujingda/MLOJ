@@ -26,9 +26,10 @@
                     </a>
                 </li> -->
                 <li class="product" v-for="(item,index) in phoneList" :key="index">
-                    <a v-bind:href="'/#/product/'+item.id" target="_blank">
+                    <!-- <a v-bind:href="'/#/product/'+item.id" target="_blank" @click="gotoCourse(item.id)"> -->
+                    <a @click="gotoCourse(item.id)">    
                         <div class="pro-img">
-                            <img src="/images/mlpic.jpg">
+                            <img v-lazy="'/images/mlpic.jpg'">
                         </div>
                     <div class="pro-name">
                         <!-- {{item.name}} -->
@@ -43,23 +44,28 @@
             </ul>
         </div>
         </div>
+        <modal title="提示" sureText="点此登录或注册" cancelText="取消" btnType="3" modalType="middle" 
+         v-bind:showModal="showModal" v-on:submit = "gotologin()" v-on:cancel="showModal=false">
+        <!-- 插槽的用法 -->
+        <template v-slot:body>
+            <p>抱歉，您还没有登录，请您先登陆后查看课程内容或者提交作业^_^</p>
+        </template>
+        </modal>
     </div>
 </template>
 <script>
-
+import Modal from './../components/Modal'
 export default {
     name:'index',
+    components:{
+        Modal
+    },
     data(){
         return{
-            username:'jack',
+            username:'',
             phoneList:[],
-            isAdmin:false
-        }
-    },
-    filters:{//过滤器常用于金额和日期的格式化
-        currency(val){
-            if(!val)return '0.00';
-            return '￥' + val.toFixed(2) + '元'
+            isAdmin:false,
+            showModal:false
         }
     },
     mounted(){
@@ -67,7 +73,7 @@ export default {
     },
     methods:{
         login(){
-            this.$router.push('login')
+            this.$router.push('/login')
         },
         getProductList(){
             this.axios.get('/products',{
@@ -75,14 +81,21 @@ export default {
                     categoryId:100012
                 }
             }).then((responce)=>{//他所回传的res是整个包，包括头和回复
+            console.log(responce);
                 let res = responce.data.data;
                 if(res.list.length>6){
                     this.phoneList = res.list.slice(0,6);
                 }
             })
         },
-        goTomyCart(){
-            this.$router.push('/cart')//闭路由跳转，同时传参
+        gotologin(){
+            this.$router.push('/login')//闭路由跳转，同时传参
+        },
+        gotoCourse(id){
+            console.log(id);
+            this.showModal = true
+            // this.$router.push('/login')
+            //这里应该先判断是否登录，没登徒弹窗，有登陆转向
         }
     }
 }
@@ -144,6 +157,7 @@ export default {
                     width: auto;
                     height: 175px;
                     margin-top: 20px;
+                    cursor: pointer;
                 }
                 .pro-img{
                     height: 187px;
@@ -152,9 +166,12 @@ export default {
                     font-weight: bold;
                 margin-top: 19px;
                     margin-bottom: 8px;
-                    color:$colorB
+                    color:$colorB;
+                    cursor: pointer;
                 }
-
+                .pro-price{
+                    cursor: pointer;
+                }
                 &:before{//此时的伪类仅仅是一个空元素，不加占位会有问题
                     content: ' ';
                     position: absolute;//必须在其父元素product上加上绝对定位，否则就相对于container进行定位了

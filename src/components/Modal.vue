@@ -13,6 +13,8 @@
                     <slot name="body"></slot>
                 </div>
                 <div class="modal-footer">
+                    <!-- 这里绑定的submit和cancel事件都是在父组件中定义的事件 -->
+                    <!-- 通过emit将点击按钮的事件传递给submit这个自定义的方法 -->
                     <a href="javascript:;" class="btn" v-if="btnType==1" v-on:click="$emit('submit')">{{sureText}}</a>
                      <a href="javascript:;" class="btn" v-if="btnType==2" v-on:click="$emit('cancel')">{{cancelText}}</a>
                     <div class="btn-group" v-if="btnType==3">

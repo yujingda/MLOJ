@@ -17,7 +17,7 @@
         <div class="nav-header">
             <div class="container">
                 <div class="header-logo">
-                    <a href="/#/index"></a>
+                    <a href="/#/selectCourse"></a>
                 </div>
                 <div class="header-menu">
                     <div class="item-menu">
@@ -25,7 +25,6 @@
                     </div>
                     <div class="item-menu">
                         <span>本课资料</span>
-                        <div class="children"></div>
                     </div>
                 </div>
                 <div class="header-search">
@@ -42,37 +41,19 @@
 <script>
 //这里用于装载各种可复用的组件
 export default {
-    name:'nav-header',//接下来实现交互额的部分 
+    name:'nav-course-header',//接下来实现交互额的部分 
     data(){
         return{
-            username:'jack',
+            username:'',
             phoneList:[]
         }
     },
-    filters:{//过滤器常用于金额和日期的格式化
-        currency(val){
-            if(!val)return '0.00';
-            return '￥' + val.toFixed(2) + '元'
-        }
-    },
     mounted(){
-        this.getProductList();
+
     },
     methods:{
         login(){
             this.$router.push('login')
-        },
-        getProductList(){
-            this.axios.get('/products',{
-                params:{//get传参使用params，post直接写
-                    categoryId:100012
-                }
-            }).then((responce)=>{//他所回传的res是整个包，包括头和回复
-                let res = responce.data.data;
-                if(res.list.length>6){
-                    this.phoneList = res.list.slice(0,6);
-                }
-            })
         },
         goTomyCart(){
             this.$router.push('/cart')//闭路由跳转，同时传参
@@ -157,68 +138,10 @@ export default {
                         }
                         &:hover{
                             color:$colorA;
-                            .children{
-                                height: 220px;
-                                opacity: 1;
-                            }
                         }
-                        .children{//通过将高度设置成0来将其隐藏
-                            position: absolute;//使其相对于container进行定位
-                            top:112px;
-                            left: 0;
-                            opacity: 0;
-                            height: 0px;
-                            width: 1226px;
-                            overflow: hidden;
-                            transition: all .5s;
-                            border-top:1px solid #e5e5e5;
-                            box-shadow: 0px 7px 6px 0px rgba(0,0,0,0.11);
-                            background-color: #ffffff;
-                            z-index: 10px;
-                            .product{
-                                position: relative;
-                                font-size: 12px;
-                                line-height: 12px;
-                                float: left;
-                                width: 16.6%;
-                                height: 200px;
-                                text-align: center;
-                                .a{
-                                    display: inline-block;
-                                }
-                                img{
-                                    width: auto;
-                                    height: 111px;
-                                    margin-top: 20px;
-                                }
-                                .pro-img{
-                                    height: 137px;
-                                }
-                                .pro-name{
-                                    font-weight: bold;
-                                    margin-top: 19px;
-                                    margin-bottom: 8px;
-                                    color:$colorB
-                                }
-                                .pro-price{
-
-                                }
-                                &:before{//此时的伪类仅仅是一个空元素，不加占位会有问题
-                                content: ' ';
-                                position: absolute;//必须在其父元素product上加上绝对定位，否则就相对于container进行定位了
-                                top: 28px;
-                                right: 0;
-                                border-left:1px solid $colorF;
-                                height: 100px;
-                                width: 1px;
-                                }
-                                &:last-child:before{
-                                    display: none;
-                                }
-                            }
                         }
                     }
-                }
+                
                 .header-search{
                     width: 319px;
                     .wrapper{

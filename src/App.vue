@@ -24,6 +24,15 @@ export default {
     // this.axios.get('/mock').then((res)=>{
     // this.res = res;
     //})
+    //当在登录页获得用户信息之后，为了防止刷新之后用户信息丢失，我们将其存储在app.vue之中
+    this.getUser();
+  },
+  methods: {
+       getUser(){
+      this.axios.get('/user').then(()=>{
+
+      });
+    }
   }
 }
 </script>
