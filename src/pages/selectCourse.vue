@@ -32,6 +32,25 @@
             </ul>
         </div>
         </div>
+        <modal title="提示" sureText="提交" cancelText="取消" btnType="3" modalType="large" 
+         v-bind:showModal="showModalCreateWeight" v-on:submit = "subNewWeight()" v-on:cancel="cancelsubWeight()">
+        <!-- 插槽的用法 -->
+        <template v-slot:body>
+            <div class="create-weight-form">
+                 <el-table :data="newWeightData" border stripe style="width: 100%;">
+                    <el-table-column v-bind:property="item" v-bind:label="item" v-for="(item,index) in weightName" :key="index">
+                         <template slot-scope="scope">
+                            <el-input v-if="index==0" v-model="scope.row.f1_score" placeholder="请输入权重"></el-input>
+                            <el-input v-if="index==1" v-model="scope.row.macro" placeholder="请输入权重"></el-input>
+                            <el-input v-if="index==2" v-model="scope.row.micro" placeholder="请输入权重"></el-input>
+                            <el-input v-if="index==3" v-model="scope.row.r2_score" placeholder="请输入权重"></el-input>
+                            <el-input v-if="index==4" v-model="scope.row.rmse" placeholder="请输入权重"></el-input>
+                        </template>
+                    </el-table-column>
+            </el-table>
+            </div>
+        </template>
+        </modal>
         <modal title="提示" sureText="点此登录或注册" cancelText="取消" btnType="3" modalType="middle" 
          v-bind:showModal="showModal" v-on:submit = "gotologin()" v-on:cancel="showModal=false">
         <!-- 插槽的用法 -->
@@ -74,10 +93,7 @@
                 <el-table-column v-bind:property="item" v-bind:label="item" v-for="(item,index) in weightName" :key="index">
                 </el-table-column>
                 <el-table-column
-                    align="right">
-                    <template slot="newweighttheader" slot-scope="scope">
-                         <el-button size="mini" @click="newweight(scope)">新建权重</el-button>
-                    </template>
+                    :render-header="renderHeader">
                 </el-table-column>
                 </el-table>
           </div>
@@ -119,6 +135,7 @@ export default {
             showModal:false,
             showModalNewCourse:false,
             showModalDeleteCourse:false,
+            showModalCreateWeight:false,
             hwdesc:'',
             hwname:'',
             hwtype:3,
@@ -127,6 +144,7 @@ export default {
             weightData:[],
             weightName:[],
             currentWeight: null,
+            newWeightData:[],
         }
     },
     computed:{
@@ -137,6 +155,13 @@ export default {
         this.getWeight();
     },
     methods:{
+        renderHeader() {
+         return (
+             <div>
+                <el-button size="mini" type="primary" on-click={()=>this.buildANewWeight()}>新建权重</el-button>
+             </div>
+         )
+    },
         login(){
             this.$router.push('/login')
         },
@@ -148,6 +173,16 @@ export default {
             }).then((res)=>{//他所回传的res是整个包，包括头和回复
                 this.hwlist=res.homeworks;
             })
+        },
+        subNewWeight(){
+            this.axios.post('/weight',{
+                micro:this.newWeightData[0].micro,
+                macro:this.newWeightData[0].macro,
+                f1_score:this.newWeightData[0].f1_score,
+                rmse:this.newWeightData[0].rmse,
+                r2_score:this.newWeightData[0].r2_score,
+            });
+            this.showModalCreateWeight=false;
         },
         gotologin(){
             this.$router.push('/login')//闭路由跳转，同时传参
@@ -161,8 +196,19 @@ export default {
                 this.$router.push(`/homework/${id}`);
             }
         },
+        cancelsubWeight(){
+            this.showModalCreateWeight=false;
+            this.newWeightData=[];
+        },
         newCourse(){
             this.showModalNewCourse=true;
+        },
+        buildANewWeight(){
+            this.showModalNewCourse=false;
+            this.showModalCreateWeight=true;
+            this.newWeightData.push({
+                edit:true,
+            });
         },
         submitCourse(){
             this.axios.post('/homeworks',{
@@ -182,7 +228,6 @@ export default {
                 this.getProductList();
             });
             this.showModalNewCourse=false;
-            
         },
         newweight(scope){
             console.log(scope.id);
