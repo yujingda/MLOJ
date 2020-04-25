@@ -9,7 +9,8 @@
                 <div class="topbar-user">
                     <a href="javascript:;" v-if="username">{{username}}</a>
                     <a href="javascript:;" v-if="!username" @click="login()">在这登录</a>
-                    <a href="javascript:;">我要注册</a>
+                    <a href="javascript:;" v-if="!username" @click="register()">我要注册</a>
+                    <a href="/#/login" v-if="username" @click="logout()">退出登录</a>
                     <a href="javascript:;" class="my-car" @click="goTomyCart()"><span class="icon-cart"></span>个人中心</a>
                 </div>
             </div>
@@ -20,12 +21,21 @@
                     <a href="/#/selectCourse"></a>
                 </div>
                 <div class="header-menu">
+                    <a href="/#/selectCourse" class="">
                     <div class="item-menu">
-                        <span>已发布课程</span>
+                        <span>已发布作业</span>
                     </div>
-                    <div class="item-menu">
+                    </a>
+                    <!-- <a href="/#/courseware"> -->
+                    <div class="item-menu" @click="gotocourseware()">
                         <span>本课资料</span>
                     </div>
+                    <a href="/#/studentadmin">
+                    <div class="item-menu" v-if="is_admin">
+                        <span>学生管理</span>
+                    </div>
+                    </a>
+                    <!-- </a> -->
                 </div>
                 <div class="header-search">
                     <div class="wrapper">
@@ -44,19 +54,33 @@ export default {
     name:'nav-course-header',//接下来实现交互额的部分 
     data(){
         return{
-            username:'',
             phoneList:[]
         }
     },
+        computed:{
+        username(){return this.$store.state.username;},
+        is_admin(){return this.$store.state.is_admin;}
+    },
+
     mounted(){
 
     },
     methods:{
         login(){
-            this.$router.push('login')
+            this.$router.push('/login')
+        },
+        register(){
+            this.$router.push('/register')
         },
         goTomyCart(){
             this.$router.push('/cart')//闭路由跳转，同时传参
+        },
+        gotocourseware(){
+            this.$router.push('/courseware')
+        },
+        logout(){
+             this.axios.get('/logout');
+             this.$cookie.delete('userId');
         }
     }
 }

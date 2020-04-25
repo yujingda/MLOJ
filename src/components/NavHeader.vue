@@ -68,9 +68,16 @@ export default {
     name:'nav-header',//接下来实现交互额的部分 
     data(){
         return{
-            username:'jack',
+            /**
+             * 组件的加载有先后顺序，先app然后navheader，nh加载时是先读取变量的值再去执行get方法，由此导致username为空
+             * 因此将其捆绑成计算属性
+             */
+            // username:this.$store.state.username,
             phoneList:[]
         }
+    },
+    computed:{
+        username(){return this.$store.state.username;}
     },
     filters:{//过滤器常用于金额和日期的格式化
         currency(val){
@@ -90,8 +97,7 @@ export default {
                 params:{//get传参使用params，post直接写
                     categoryId:100012
                 }
-            }).then((responce)=>{//他所回传的res是整个包，包括头和回复
-                let res = responce.data.data;
+            }).then((res)=>{//他所回传的res是整个包，包括头和回复
                 if(res.list.length>6){
                     this.phoneList = res.list.slice(0,6);
                 }

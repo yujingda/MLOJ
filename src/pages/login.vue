@@ -1,7 +1,7 @@
 <template>
   <div class="login">
     <div class="container">
-      <a href="/#/index"><img src="/images/login-new-logo.png" alt=""></a>
+      <a href="/#/selectCourse"><img src="/images/login-new-logo.png" alt=""></a>
     </div>
     <div class="wrapper">
       <div class="container">
@@ -19,8 +19,8 @@
             <a href="javascript:;" class="btn" @click="login">登录</a>
           </div>
           <div class="tips">
-            <div class="sms" @click="register">手机短信登录/注册</div>
-            <div class="reg">立即注册<span>|</span>忘记密码？</div>
+            <div class="sms">手机短信登录/注册</div>
+            <div class="reg" @click="gotoregister()">立即注册<span>|</span>忘记密码？</div>
           </div>
         </div>
       </div>
@@ -54,16 +54,18 @@ export default {
     login(){
       //解构，将username和pwd从数据（this之中）中结构出来，
       let { username,password } = this;
-      this.axios.post('/user/login',{
-        username,//当key和value都一样的时候，这楼里就可以简写，否则要写为username:a的形似
+      this.axios.post('/login',{
+        uid:username,//当key和value都一样的时候，这楼里就可以简写，否则要写为username:a的形似
         password
       }).then((res)=>{
         //在全局函数设置了promise.reject之后，就可以在登陆失败时抛出异常而停止执行，转向catch
-        this.$cookie.set('userId',res.id,{expires:'Session'});
+        this.$cookie.set('userId',res.user.uid,{expires:'Session'});
         //想要把用户名传给首页，需要用vuex
-        // this.$store.dispatch('saveUserName',res.username);
+        //通过dispatch来派发这个方法，指定saveUserName
+        this.$store.dispatch('saveUserName',res.user.username);
+        this.$store.dispatch('saveIsAdmin',res.user.is_admin);
         // this.saveUserName(res.username);
-        this.$router.push('/index'
+        this.$router.push('/selectCourse'
           // name:'index',
           // params:{
           //   from:'login'
@@ -72,14 +74,10 @@ export default {
       })
     },
     ...mapActions(['saveUserName']),
-    register(){
-      this.axios.post('/user/register',{
-        username:'admin1',
-        password:'admin1',
-        email:'admin1@163.com'
-      }).then(()=>{
-        this.$message.success('注册成功');
-      })
+    ...mapActions(['saveIsAdmin']),
+    gotoregister()
+    {
+      this.$router.push('/register');
     }
   }
 }

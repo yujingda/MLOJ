@@ -18,20 +18,19 @@ export default {
     // }
   },
   mounted() {
-    //本地静态加载json
-    // this.axios.get('/mock/user/login.json').then((res)=>{
-    //   this.res = res;
-    // this.axios.get('/mock').then((res)=>{
-    // this.res = res;
-    //})
+    
     //当在登录页获得用户信息之后，为了防止刷新之后用户信息丢失，我们将其存储在app.vue之中
     this.getUser();
   },
   methods: {
-       getUser(){
-      this.axios.get('/user').then(()=>{
-
-      });
+      getUser(){
+         let path = location.hash;
+          if(path!='#/register'&&path!='#/login'){
+            this.axios.get('/user/getcur').then((res)=>{
+            this.$store.dispatch('saveUserName',res.user.username);
+            this.$store.dispatch('saveIsAdmin',res.user.is_admin);
+          });
+      }
     }
   }
 }

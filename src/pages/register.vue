@@ -10,16 +10,13 @@
             <span class="checked">帐号注册</span>
           </h3>
           <div class="input">
-            <input type="text" placeholder="请输入学号" v-model="username">
+            <input type="text" placeholder="请输入真实学号，用于成绩统计" v-model="uid">
           </div>
           <div class="input">
-            <input type="password" placeholder="请输入密码" v-model="password">
+            <input type="password" placeholder="请输入密码，无格式要求" v-model="password">
           </div>
           <div class="input">
-            <input type="text" placeholder="请输入姓名" v-model="userzname">
-          </div>
-          <div class="input">
-            <input type="text" placeholder="请输入班级" v-model="userclass">
+            <input type="text" placeholder="请输入真实姓名，用于成绩统计" v-model="username">
           </div>
           <div class="btn-box">
             <a href="javascript:;" class="btn" @click="register">注册</a>
@@ -45,20 +42,21 @@ export default {
   data(){
     return {
       username:'',
-      userzname:'',
-      userclass:'',
+      uid:'',
+      // userclass:'',
       password:'',
       userId:''
     }
   },
   methods:{
     register(){
-      this.axios.post('/user/register',{
-        username:'admin1',
-        password:'admin1',
-        email:'admin1@163.com'
+      this.axios.post('/register',{
+        uid:this.uid,
+        password:this.password,
+        username:this.username,
       }).then(()=>{
-        this.$message.success('注册成功');
+        this.$message.success('注册成功，正为您跳转登陆界面');
+        this.$router.push('/login');
       })
     }
   }

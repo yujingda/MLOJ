@@ -31,3 +31,9 @@
     background: url($img) no-repeat center;
     background-size: contain;
 }
+
+@mixin bluebar($hei:25px,$wid:8px,$bc:$colorA){
+    height: $hei;
+    width: $wid;
+    background-color: $bc;
+}

@@ -2,19 +2,17 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Home from './pages/home'
-import Index from './pages/index'
+// import Index from './pages/index'
 import Product from './pages/product'
 import Detail from './pages/detail'
-import Cart from './pages/cart'
 import Login from './pages/login'
-import LoginIn from './pages/loginin'
+import Score from './pages/score'
 import Register from './pages/register'
-import Order from './pages/order'
-import OrderConfirm from './pages/orderconfirm'
-import OrderList from './pages/orderlist.vue'
-import OrderPay from './pages/orderpay.vue'
 import Course from './pages/course'
+import Homework from './pages/homework'
+import CourseWare from './pages/courseware'
 import SelectCourse from './pages/selectCourse'
+import StudentAdmin from './pages/studentadmin'
 //加载插件的语法:导入Vue，导入Router，用Vue的方式导入Router插件，而后导出
 Vue.use(Router);
 
@@ -32,11 +30,6 @@ export default new Router({
                     component: SelectCourse,
                 },
                 {
-                    path:'/index',
-                    name: 'index',
-                    component: Index,
-                },
-                {
                     path:'/product/:id',
                     name: 'product',
                     component: Product,
@@ -45,13 +38,28 @@ export default new Router({
                     path:'/detail/:id',
                     name: 'detail',
                     component: Detail,
+                },
+                {
+                    path:'/homework/:id',
+                    name: 'homework',
+                    component: Homework
+                },
+                {
+                    path:'/courseware',
+                    name: 'courseware',
+                    component: CourseWare
+                },
+                {
+                    path:'/studentadmin',
+                    name: 'studentadmin',
+                    component: StudentAdmin
+                },
+                {   
+                    path:'/score/:hid/:uid/:score',
+                    name: 'score',
+                    component: Score
                 }
             ]
-        },
-        {
-            path:'/cart',
-            name: 'cart',
-            component: Cart
         },
         {
             path:'/login',
@@ -59,41 +67,15 @@ export default new Router({
             component: Login
         },
         {
-            path:'/loginin',
-            name: 'loginin',
-            component: LoginIn
-        },
-        {
             path:'/register',
             name: 'register',
             component: Register
         },
         {
-            path:'/order',
-            name: 'order',
-            component: Order,
-            children:[
-                {
-                    path:'confirm',
-                    name: 'order-confirm',
-                    component: OrderConfirm
-                },
-                {
-                    path:'list',
-                    name: 'order-list',
-                    component: OrderList
-                },
-                {
-                    path:'pay',
-                    name: 'order-pay',
-                    component: OrderPay
-                }
-            ]
-        },
-        {
             path:'/course',
             name: 'course',
             component: Course
-        }
+        },
+
     ]
 })

@@ -11,3 +11,17 @@ margin-left:auto;
     font-size: 14px;
     
 }
+
+.fl{
+    float: left;
+}
+.fr{
+    float: right;
+}
+.clearfix:before,.clearfix:after{
+    content: ' ';
+    display: table;
+}
+.clearfix:after{
+    clear: both;
+}
